@@ -3,12 +3,12 @@ class Stopwatch {
         this.running = false;
         this.display = display;
         this.reset();
-        this.print();
+        this.print(this.times);
     }
 
     reset() {
         if (!this.running) {
-            this.time = {
+            this.times = {
                 minute: 0,
                 second: 0,
                 milisecond: 0
@@ -17,23 +17,23 @@ class Stopwatch {
         }
     }
 
-    format(time) {
-        return `${pre0(time.minute)}:${pre0(time.second)}:${pre0(time.milisecond)}`;
+    format(times) {
+        return `${pre0(times.minute)}:${pre0(times.second)}:${pre0(times.milisecond)}`;
     }
 
     print() {
-        this.display.innerText = this.format(this.time);
+        this.display.innerText = this.format(this.times);
     }
 
     calculate() {
-        this.time.milisecond += 1;
-        if (this.time.milisecond >= 100) {
-            this.time.second += 1;
-            this.time.milisecond = 0;
+        this.times.milisecond += 1;
+        if (this.times.milisecond >= 100) {
+            this.times.second += 1;
+            this.times.milisecond = 0;
         }
-        if (this.time.second >= 60) {
-            this.time.minute += 1;
-            this.time.second = 0;
+        if (this.times.second >= 60) {
+            this.times.minute += 1;
+            this.times.second = 0;
         }
     }
 
@@ -65,7 +65,7 @@ class Stopwatch {
 
     timeShot() {
         if (this.running) {
-            let timeShot = this.format(this.time);
+            let timeShot = this.format(this.times);
             var elementList = document.createElement('li');
             elementList.innerText = timeShot;
             if (selector('#result').hasChildNodes) {
