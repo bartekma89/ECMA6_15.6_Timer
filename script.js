@@ -44,6 +44,7 @@ class Stopwatch {
     }
 
     start() {
+        selector('#stop').innerText = 'Pause';
         if (!this.running) {
             this.running = true;
             this.watch = setInterval(() => this.step(), 10);
@@ -52,8 +53,31 @@ class Stopwatch {
     }
 
     stop() {
-        this.running = false;
-        clearInterval(this.watch);
+        if (this.running) {
+            selector('#stop').innerText = 'Reset';
+            this.running = false;
+            clearInterval(this.watch);
+        } else {
+            selector('#stop').innerText = 'Pause';
+            this.reset();
+        }
+    }
+
+    timeShot() {
+        if (this.running) {
+            let timeShot = this.format(this.time);
+            var elementList = document.createElement('li');
+            elementList.innerText = timeShot;
+            if (selector('#result').hasChildNodes) {
+                selector('#result').insertBefore(elementList, selector('#result').firstChild);
+            } else {
+                selector('#result').appendChild(elementList);
+            }
+        }
+    }
+
+    resetList() {
+        if (!this.running) selector('#result').innerText = '';
     }
 
 }
@@ -73,4 +97,6 @@ selector('#start').addEventListener('click', () => stopwatch.start());
 
 selector('#stop').addEventListener('click', () => stopwatch.stop());
 
-selector('#reset').addEventListener('click', () => stopwatch.reset());
+selector('#reset').addEventListener('click', () => stopwatch.resetList());
+
+selector('.stopwatch').addEventListener('click', () => stopwatch.timeShot());
